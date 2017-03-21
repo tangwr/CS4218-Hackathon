@@ -1,0 +1,7 @@
+Carrot
+apple
+Beetroot
++
+2
+12
+1

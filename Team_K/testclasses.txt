@@ -1,0 +1,12 @@
+sg.edu.nus.comp.cs4218.impl.app.CalApplication
+sg.edu.nus.comp.cs4218.impl.app.CatApplication
+sg.edu.nus.comp.cs4218.impl.app.CdApplication
+sg.edu.nus.comp.cs4218.impl.app.DateApplication
+sg.edu.nus.comp.cs4218.impl.app.EchoApplication
+sg.edu.nus.comp.cs4218.impl.app.GrepApplication
+sg.edu.nus.comp.cs4218.impl.app.HeadApplication
+sg.edu.nus.comp.cs4218.impl.app.TailApplication
+sg.edu.nus.comp.cs4218.impl.app.PwdApplication
+sg.edu.nus.comp.cs4218.impl.app.SedApplication
+sg.edu.nus.comp.cs4218.impl.app.SortApplication
+sg.edu.nus.comp.cs4218.impl.app.WcApplication
