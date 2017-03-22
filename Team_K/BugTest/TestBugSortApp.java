@@ -16,20 +16,13 @@ public class TestBugSortApp {
 
 	static final String FILE_PATH = "BugTestFiles" + File.separator + "sortFiles" + File.separator;
 	static final String UNSORTED_FILE = FILE_PATH + "unsorted.txt";
-	static final String SORTED_FILE = FILE_PATH + "sorted.txt";
-	static final String SORTED_FILE_N = FILE_PATH + "sorted_n.txt";
-	static final String SORTED_FILE_MULTIPLE = FILE_PATH + "sorted_mulitple.txt";
-	static final String UNSORTED_NUM_FILE = FILE_PATH + "unsorted_num.txt";
-	static final String SORTED_NUM_FILE = FILE_PATH + "sorted_num.txt";
-	static final String UNSORTED_TWO_LINES_FILE = FILE_PATH + "unsorted_twoLines.txt";
-	static final String SORTED_TWO_LINES_FILE = FILE_PATH + "sorted_twoLines.txt";
 	
 	static final String UNSORTED_TEXT = 
-			"100" +
-			"A" +
-			"@" +
+			"100" + System.lineSeparator() +
+			"A" + System.lineSeparator() +
+			"@" + System.lineSeparator() +
 			System.lineSeparator() +
-			"a" +
+			"a" + System.lineSeparator() +
 			"-1";
 	
 	static final String SORTED_TEXT = 
@@ -48,7 +41,7 @@ public class TestBugSortApp {
 			"A" + System.lineSeparator() +
 			"a";
 			
-	static final String SORTED_TEXT_DOUBLE = 
+	static final String SORTED_TEXT_MULTIPLE = 
 			System.lineSeparator() +
 			System.lineSeparator() +
 			"-1" +  System.lineSeparator() +
@@ -62,16 +55,20 @@ public class TestBugSortApp {
 			"a" +
 			"a";
 	
+	static final String UNSORTED_TEXT_NUM = 
+			"100" + System.lineSeparator() +
+			"1" + System.lineSeparator() +
+			"-1" +	System.lineSeparator() +	 
+			"2" + System.lineSeparator() +
+			"0" + System.lineSeparator() +
+			"+0";
+	
 	static final String SORTED_TEXT_NUM = 
 			"+0" + System.lineSeparator() +
 			"-1" + System.lineSeparator() +
 			"0" +	System.lineSeparator() +	 
 			"1" + System.lineSeparator() +
 			"2" + System.lineSeparator() +
-			"100";
-	
-	static final String SORTED_TEXT_TWO_LINES = 
-			"@" + System.lineSeparator() +
 			"100";
 	
 	SortApplication sortApp;
@@ -90,12 +87,22 @@ public class TestBugSortApp {
 	 * as some special chars have greate ASCII values as compare to simple letters
 	 */
 	@Test
-	public void testSortWithOutDashN() throws AbstractApplicationException {
-		String args[] = {UNSORTED_FILE};
-		stdout = new ByteArrayOutputStream();
-		sortApp.run(args, null, stdout);
+	public void testSortAll() throws AbstractApplicationException {
 		String expectedResults = SORTED_TEXT;
-		String actualResults = stdout.toString();
+		String actualResults = sortApp.sortAll(UNSORTED_TEXT);
+		assertEquals(expectedResults, actualResults);
+	}
+	
+	/*
+	 * This bug is due to "sortNumber(String toSort)" treating a "special char + number as a number"
+	 * e.g. "+0" was treated as a number "0" instead of a special char "+" and number "0"
+	 * pg 12 Seciton 7.2.9 sort of CS4218 Project Description
+	 * SortApplication.java, line 182 "SortNumbers(String toSort)" methods
+	 */
+	@Test
+	public void testSortNumber() throws AbstractApplicationException {
+		String expectedResults = SORTED_TEXT_NUM;
+		String actualResults = sortApp.sortNumbers(UNSORTED_TEXT_NUM);
 		assertEquals(expectedResults, actualResults);
 	}
 	
@@ -126,37 +133,7 @@ public class TestBugSortApp {
 		String args[] = {UNSORTED_FILE, UNSORTED_FILE};
 		stdout = new ByteArrayOutputStream();
 		sortApp.run(args, null, stdout);
-		String expectedResults = SORTED_TEXT_DOUBLE;
-		String actualResults = stdout.toString();
-		assertEquals(expectedResults, actualResults);
-	}
-	
-	/*
-	 * This bug is due to "sort -n" treating a "special char + number as a number"
-	 * e.g. "+0" was treated as a number "0" instead of a special char "+" and number "0"
-	 * pg 12 Seciton 7.2.9 sort of CS4218 Project Description
-	 * SortApplication.java, line 182 "SortNumbers" methods
-	 */
-	@Test
-	public void testNumberFile() throws AbstractApplicationException {
-		String args[] = {"-n", UNSORTED_NUM_FILE};
-		stdout = new ByteArrayOutputStream();
-		sortApp.run(args, null, stdout);
-		String expectedResults = SORTED_TEXT_NUM;
-		String actualResults = stdout.toString();
-		assertEquals(expectedResults, actualResults);
-	}
-	
-	/*
-	 * This bug is due to extra lines being output in the stdout
-	 * pg 12 Seciton 7.2.9 sort of CS4218 Project Description
-	 */
-	@Test
-	public void testTwoLinesFile() throws AbstractApplicationException {
-		String args[] = {UNSORTED_TWO_LINES_FILE};
-		stdout = new ByteArrayOutputStream();
-		sortApp.run(args, null, stdout);
-		String expectedResults = SORTED_TEXT_TWO_LINES;
+		String expectedResults = SORTED_TEXT_MULTIPLE;
 		String actualResults = stdout.toString();
 		assertEquals(expectedResults, actualResults);
 	}
