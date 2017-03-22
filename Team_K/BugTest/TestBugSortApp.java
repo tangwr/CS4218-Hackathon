@@ -18,6 +18,11 @@ public class TestBugSortApp {
 	static final String UNSORTED_FILE = FILE_PATH + "unsorted.txt";
 	static final String SORTED_FILE = FILE_PATH + "sorted.txt";
 	static final String SORTED_FILE_N = FILE_PATH + "sorted_n.txt";
+	static final String SORTED_FILE_MULTIPLE = FILE_PATH + "sorted_mulitple.txt";
+	static final String UNSORTED_NUM_FILE = FILE_PATH + "unsorted_num.txt";
+	static final String SORTED_NUM_FILE = FILE_PATH + "sorted_num.txt";
+	static final String UNSORTED_TWO_LINES_FILE = FILE_PATH + "unsorted_twoLines.txt";
+	static final String SORTED_TWO_LINES_FILE = FILE_PATH + "sorted_twoLines.txt";
 	
 	static final String UNSORTED_TEXT = 
 			"100" +
@@ -56,6 +61,19 @@ public class TestBugSortApp {
 			"A" + System.lineSeparator() +
 			"a" +
 			"a";
+	
+	static final String SORTED_TEXT_NUM = 
+			"+0" + System.lineSeparator() +
+			"-1" + System.lineSeparator() +
+			"0" +	System.lineSeparator() +	 
+			"1" + System.lineSeparator() +
+			"2" + System.lineSeparator() +
+			"100";
+	
+	static final String SORTED_TEXT_TWO_LINES = 
+			"@" + System.lineSeparator() +
+			"100";
+	
 	SortApplication sortApp;
 	InputStream stdin;
 	OutputStream stdout;
@@ -113,6 +131,35 @@ public class TestBugSortApp {
 		assertEquals(expectedResults, actualResults);
 	}
 	
+	/*
+	 * This bug is due to "sort -n" treating a "special char + number as a number"
+	 * e.g. "+0" was treated as a number "0" instead of a special char "+" and number "0"
+	 * pg 12 Seciton 7.2.9 sort of CS4218 Project Description
+	 * SortApplication.java, line 182 "SortNumbers" methods
+	 */
+	@Test
+	public void testNumberFile() throws AbstractApplicationException {
+		String args[] = {"-n", UNSORTED_NUM_FILE};
+		stdout = new ByteArrayOutputStream();
+		sortApp.run(args, null, stdout);
+		String expectedResults = SORTED_TEXT_NUM;
+		String actualResults = stdout.toString();
+		assertEquals(expectedResults, actualResults);
+	}
+	
+	/*
+	 * This bug is due to extra lines being output in the stdout
+	 * pg 12 Seciton 7.2.9 sort of CS4218 Project Description
+	 */
+	@Test
+	public void testTwoLinesFile() throws AbstractApplicationException {
+		String args[] = {UNSORTED_TWO_LINES_FILE};
+		stdout = new ByteArrayOutputStream();
+		sortApp.run(args, null, stdout);
+		String expectedResults = SORTED_TEXT_TWO_LINES;
+		String actualResults = stdout.toString();
+		assertEquals(expectedResults, actualResults);
+	}
 	
 	@After
 	public void teardown(){
