@@ -22,6 +22,11 @@ public class TestBugEcho {
 		si = new ShellImplementation();
 	}
 
+	/*
+	 * This bug is due to not Globbing taking effect. For echo, globbing should not be implemented
+	 * and hence '*' should be printed as a literal.
+	 */
+	
 	@Test
 	public void echoGlobbing() throws AbstractApplicationException, ShellException
 	{

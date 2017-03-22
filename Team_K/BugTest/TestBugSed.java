@@ -19,6 +19,10 @@ public class TestBugSed {
 		sedApp = new SedApplication();
 	}
 
+	/*
+	 * This bug is due to not useing regex. If a file contains "/ello" and I want to convert
+	 * "/" into H, it is not possible.
+	 */
 	@Test
 	public void replaceDivisionCharacterToLetterHFromInputStream() throws AbstractApplicationException
 	{
