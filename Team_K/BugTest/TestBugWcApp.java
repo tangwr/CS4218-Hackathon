@@ -74,7 +74,7 @@ public class TestBugWcApp {
 	/*
 	 * The bug is output wrong results when using "cat wc.txt | wc"
 	 * Error with the passing of data from file to input stream
-	 * Extra newline and 2 chars are counted
+	 * Extra newline count and byte count are shown in the results
 	 * WcApplication.java reading of inputStream
 	 *  expected results "65 10 12"
 	 * actual results "67 10 13"
