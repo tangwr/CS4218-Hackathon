@@ -86,6 +86,7 @@ public class TestBugHeadApp {
 		} catch (AbstractApplicationException e) {
 			fail();
 		}
+		
 		try {
 			ByteArrayOutputStream stdout = new ByteArrayOutputStream();
 			headApplication.run(new String[]{"input.txt","-n","4"}, null, stdout);
